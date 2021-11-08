@@ -8,3 +8,16 @@
 }
 
 
+.grid {
+  display:grid ;
+  grid-template-areas:"a a a a"
+                      "b b b b"
+                      "c c c c"
+                      "d d d d";
+
+
+}
+/* .grid :nth-child(1){
+  background-color: aqua;
+  grid-area: a;
+} */
