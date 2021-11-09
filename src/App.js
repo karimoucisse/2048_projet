@@ -1,21 +1,14 @@
-import React, { Component } from 'react'
-
-import './App.css'
+import React, { Component } from 'react';
+import Grille from './components/Grille';
+import "./App.css"
 
 class App extends Component {
-  constructor() {
-    super()
-    
-  }
-  
   render() {
     return (
       <div>
-        <div>
-          <h1>2048</h1>
-        </div>
+        <Grille />
       </div>
-    )
+    );
   }
 }
 
