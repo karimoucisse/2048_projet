@@ -24,12 +24,8 @@ export default class App extends Component {
     console.log(`position: ${this.state.position}`);
     return (
       <>
-        <div>
-          <Button label= "top" />
-          <Button label= "bottom" />
-          <Button label= "left" />
-          <Button label= "right" />
-        </div>
+        <Button label= "start" onclickStart={this.onclickStart}/>
+        <Button label= "reset" />
         {/* <div className={`block ${this.state.position === "left" && "block_left"}
           ${this.state.position === "right" && "block_right"}
           ${this.state.position === "top" && "block_top"}
@@ -40,7 +36,12 @@ export default class App extends Component {
         <div>
           <Grille />
         </div>
-        <Button label= "start" onclickStart={this.onclickStart}/>
+        <div>
+          <Button label= "top" />
+          <Button label= "bottom" />
+          <Button label= "left" />
+          <Button label= "right" />
+        </div>
       </>
     )
   }
