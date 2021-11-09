@@ -1,48 +1,53 @@
-import React, { Component } from 'react';
-import Bouton from './components/Bouton';
-import Score from './components/Score'
-import './App.css'
+import React, { Component } from 'react'
+import Button from './components/Bouton';
 import Grille from './components/Grille';
+import './App.css'
 
-
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super()
-
     this.state = {
-        grille: [
-            
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-        ]   
-    }
-    this.reset = this.reset.bind(this)
-}
-  reset() {
-    this.setState({
-        grille: [
-            
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-        ]   
-    })
+      position : " "
+    } 
+    // this.onclickMove=this.onclickMove.bind(this)
+    this.onClickStart=this.onclickStart.bind(this)
   }
-
+  // onclickMove(label) {
+  //   this.setState({position : label})
+  //   console.log(label);
+  // }
+  onclickStart() {
+    console.log('salut');
+  }
+  
   render() {
+    console.log(`position: ${this.state.position}`);
     return (
-      <div>
-        <h1>2048</h1>
-        <Bouton className="bouton-new" reset={this.reset}/>
-        <Score/>
-        <div className="cases">
-
+      <>
+        <Button label= "start" onclickStart={this.onclickStart}/>
+        <Button label= "reset" />
+        {/* <div className={`block ${this.state.position === "left" && "block_left"}
+          ${this.state.position === "right" && "block_right"}
+          ${this.state.position === "top" && "block_top"}
+          ${this.state.position === "bottom" && "block_bottom"}
+        `}>
+          block
+        </div> */}
+        <div>
+          <Grille />
         </div>
-        <Grille grille={this.state.grille}/>
-      </div>
-    );
+        <div>
+          <Button label= "top" />
+          <Button label= "bottom" />
+          <Button label= "left" />
+          <Button laZZzzbel= "right" />
+          <Button label= "right" />
+        </div>
+      </>
+    )
   }
 }
 
-export default App
+
+
+
