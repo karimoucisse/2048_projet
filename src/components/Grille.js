@@ -22,14 +22,15 @@ class Grille extends Component {
     
     randomizeGrid(){
         
-        let ligne_du_premier_2=Math.floor(Math.random()*3); 
-        let colone_du_premier_2=Math.floor(Math.random()*3);
-        let ligne_du_deuxieme_2=Math.floor(Math.random()*3);
-        let colone_du_deuxieme_2=Math.floor(Math.random()*3);
+        let ligne_du_premier_2=Math.floor(Math.random()*4); 
+        let colone_du_premier_2=Math.floor(Math.random()*4);
+        let ligne_du_deuxieme_2=Math.floor(Math.random()*4);
+        let colone_du_deuxieme_2=Math.floor(Math.random()*4);
         
         this.setState({grille:this.state.grille[ligne_du_premier_2][colone_du_premier_2]=2})
         this.setState({grille:this.state.grille[ligne_du_deuxieme_2][colone_du_deuxieme_2]=2})
     }
+    
 
     render() {
         return (
