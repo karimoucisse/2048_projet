@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
 
 class Score extends Component {
-    constructor () {
-        super ()
-
-        this.state = {
-            score : 0
-        }
-    }
-    
-    
     
     render() {
+        const {score} = this.props
         return (
-            <div>
-                <h2>Score</h2>
-                <p>0000</p>
-
+            <div className="score">
+               <div><h2>Score</h2></div> 
+                <div><p>{score}</p></div>
             </div>
         );
     }

@@ -14,7 +14,8 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]
-      ]   
+      ],
+      score: 0 
     } 
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
@@ -97,6 +98,7 @@ export default class App extends Component {
 }
     
   onclickStart() {
+    this.randomizeGrid()
     this.randomizeGrid()
   }
 
@@ -212,6 +214,10 @@ export default class App extends Component {
         if (board[i][j] !== 0 && board[i][j] === board[i][j + factor]) {
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
+          this.setState({
+            score : this.state.score += board[j][i]
+          })
+          break;
         }
 
       }
@@ -228,11 +234,26 @@ export default class App extends Component {
         if (board[j + factor] && board[j][i] !== 0 && board[j][i] === board[j + factor][i]) {
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
+          this.setState({
+            score : this.state.score += board[j][i]
+          })
+          break;
         }
       }
     }
     this.setState({ grille: board })
   }
+
+  // playScore(){
+  //   const board = [...this.state.grille]
+  //   for ( let i = 0; i < board.length; i++){
+  //     for (let j = 0; j < board[i].length; j++){
+  //       // if (  ){
+
+  //       }
+  //     }
+  //   }
+  // }
 
 // MOUVEMENT
 
@@ -269,10 +290,26 @@ export default class App extends Component {
   render() {
     return (
       <>
+      <div className="titre">
+        <div>
+          2
+        </div>
+        <div>
+          0
+        </div>
+        <div>
+          4
+        </div>
+        <div>
+          8
+        </div>
+      </div>
+      
       <div className="main_container">
         <div className="start_buttons">
-          <Button label= "start" onclick={this.onclickStart}/>
-          <Button label= "reset" onclick={this.onclickReset} />
+          <Score className="score" score={this.state.score}/>
+          <Button className="start" label= "start" onclick={this.onclickStart}/>
+          <Button label= "reset" classNme="reset" onclick={this.onclickReset} />
         </div>
         
         
@@ -282,10 +319,10 @@ export default class App extends Component {
         
       </div>
         <div className="button_container">
-          <Button className="btn_top" label= "top" onclick={this.moveUp} />
-          <Button className="btn_bottom" label= "bottom" onclick={this.moveDown} />
-          <Button className="btn_left" label= "left" onclick={this.moveLeft} />
-          <Button className="btn_right" label= "right" onclick={this.moveRight} />
+          <Button className="btn_top" label= "↑" onclick={this.moveUp} />
+          <Button className="btn_bottom" label= "↓" onclick={this.moveDown} />
+          <Button className="btn_left" label= "←" onclick={this.moveLeft} />
+          <Button className="btn_right" label= "→" onclick={this.moveRight} />
         </div>
     </>
     )
