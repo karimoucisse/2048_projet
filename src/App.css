@@ -2,13 +2,59 @@
   padding: 40px;
   display: flex;
   justify-content: center;
-  /* --positontop : 10px */
+}
+/* .blue {
+  background-color: rgb(0, 81, 255) !important;
+}
+.red {
+  background-color: rgb(235, 20, 20) !important;
+} */
+.main_container {
+  width: 600px;
+  background-color: #f5dede;
+  /* border: 2px solid rgb(26, 25, 25); */
+  padding: 20px;
+  box-shadow: 4px 4px 4px rgb(78, 78, 78);
+  /* border: 3px solid red; */
+}
+.zero_colors {
+  background-color: #f5dede !important;
+  color: #f5dede !important;
+}
+.deux_colors {
+background-color: #091F69 !important;
+color: #FFF !important;
+}
+.quatre_colors {
+background-color: #C5491D !important;
+color: #FFF !important;
+}
+.huit_colors {
+background-color: #ffdcdf !important;
+}
+.seize_colors {
+background-color:#f8c2d6 !important ;
+}
+.trente-deux_colors {
+background-color: #c2dfde !important;
+}
+.soixante-quatre_colors {
+background-color: #DBE7E4 !important;
+}
+.cent-vingt-huit_colors {
+background-color: #F0EFEB !important;
+}
+.deux-cent-cinquante-six_colors {
+background-color: #D6E2E9 !important;
+}
+.cinq-cent-douze_colors {
+background-color: #BCD4E6 ;
 }
 button {
   padding: 10px 15px;
   border-radius: 20px;
   cursor: pointer;
-  margin-left: 20px;
+  /* margin-left: 20px; */
   background-color: #fff;
   border-color: royalblue;
   color: royalblue;
@@ -18,6 +64,36 @@ button {
 button:hover {
   background-color:royalblue;
   color: #fff;
+}
+.start_buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.button_container {
+  display: flex;
+  /* gap: 20px; */
+  justify-content: center;
+  margin-top: 50px;
+  position: relative;
+  border: 2px solid red;
+
+}
+.btn_left{
+  /* position: absolute; */
+  left: 0;
+}
+.btn_right {
+  /* position: absolute; */
+  right: 0;
+}
+.btn_top {
+  /* position: absolute; */
+  top: -20;
+}
+.btn_bottom {
+  /* position: absolute; */
+  bottom: -20;
 }
 .block {
   height: var();
@@ -49,7 +125,7 @@ button:hover {
                       "b b b b"
                       "c c c c"
                       "d d d d"; */
-background: #AD9D8f;
+background: #B6B6B8;
 width: max-content;
 margin: auto;
 padding: 5px;
@@ -60,14 +136,15 @@ display: flex;
 .block {
   height: 80px;
   width: 80px;
-  background:lightgray;
+  background:#f7ece6;
   margin: 3px;
   display: flex;
+  border-radius: 20px;
   justify-content: center;
   align-items: center;
   font-size: 45px;
   font-weight: bold;
-  color: #fff;
+  color: #756E64;
 }
 /* .grid :nth-child(1){
   background-color: aqua;
