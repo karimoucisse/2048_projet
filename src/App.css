@@ -72,11 +72,11 @@ button:hover {
 }
 .button_container {
   display: flex;
-  /* gap: 20px; */
+  gap: 20px;
   justify-content: center;
   margin-top: 50px;
   position: relative;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 
 }
 .btn_left{
@@ -125,7 +125,7 @@ button:hover {
                       "b b b b"
                       "c c c c"
                       "d d d d"; */
-background: #B6B6B8;
+background: #7272a5;
 width: max-content;
 margin: auto;
 padding: 5px;
