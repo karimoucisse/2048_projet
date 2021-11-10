@@ -104,7 +104,6 @@ export default class App extends Component {
 
   onclickReset(){
     this.reset()
-    this.randomizeGrid()
   }
 
   // COMPRESSIONS
