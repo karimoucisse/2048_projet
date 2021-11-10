@@ -24,13 +24,16 @@
 .deux_colors {
 background-color: #091F69 !important;
 color: #FFF !important;
+transition: 1s;
 }
 .quatre_colors {
 background-color: #C5491D !important;
 color: #FFF !important;
+transition: 1s;
 }
 .huit_colors {
 background-color: #ffdcdf !important;
+transition: 1s;
 }
 .seize_colors {
 background-color:#f8c2d6 !important ;

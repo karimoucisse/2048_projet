@@ -42,6 +42,7 @@ export default class App extends Component {
   //     newBoard[ligne_du_deuxieme_2][colone_du_deuxieme_2] = 2
   //     this.setState({grille: newBoard})
   // }
+  
   randomizeGrid(){
         
         let ligne_du_premier_2=Math.floor(Math.random()*4); 
@@ -213,6 +214,38 @@ export default class App extends Component {
     this.mergeVertical("up")
     this.compressVertical("up")
   }
+  componentDidMount() {
+    window.addEventListener("keyup", e => {
+      var key = e.keyCode;
+      // console.log(key);
+      if(key === 37){
+        this.moveLeft()
+      }else if(key === 39){
+        this.moveRight()
+        console.log("up");
+      }else if(key === 38){
+        console.log("right");
+        this.moveUp()
+      }else if(key === 40){
+        console.log("down");
+        this.moveDown()
+      }
+    })
+    // window.onkeyup = function(e) {
+    //   var key = e.keyCode;
+    //   // console.log(key);
+    //   if(key === 37){
+    //     this.moveLeft()
+    //     console.log("left");
+    //   }else if(key === 38){
+    //     console.log("up");
+    //   }else if(key === 39){
+    //     console.log("right");
+    //   }else if(key === 40){
+    //     console.log("down");
+    //   }
+    // };
+  }
   
 
 
@@ -229,14 +262,16 @@ export default class App extends Component {
         <div>
           <Grille grille= {this.state.grille}/>
         </div>
-        
-      </div>
+
         <div className="button_container">
           <Button className="btn_top" label= "top" onclick={this.moveUp} />
           <Button className="btn_bottom" label= "bottom" onclick={this.moveDown} />
           <Button className="btn_left" label= "left" onclick={this.moveLeft} />
           <Button className="btn_right" label= "right" onclick={this.moveRight} />
         </div>
+
+      </div>
+        
     </>
     )
   }
