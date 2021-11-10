@@ -1,40 +1,19 @@
 import React, { Component } from 'react';
 
 class Grille extends Component {
-
-   
-    constructor() {
-        super()
+    // constructor() {
+    //     super()
     
-        this.state = {
-            grille: [
-                
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0]
-            ]   
-        }
-        this.randomizeGrid= this.randomizeGrid.bind(this);
-        this.randomizeGrid()
-    }
-
-    
-    randomizeGrid(){
-        
-        let ligne_du_premier_2=Math.floor(Math.random()*4); 
-        let colone_du_premier_2=Math.floor(Math.random()*4);
-        let ligne_du_deuxieme_2=Math.floor(Math.random()*4);
-        let colone_du_deuxieme_2=Math.floor(Math.random()*4);
-        
-        this.setState({grille:this.state.grille[ligne_du_premier_2][colone_du_premier_2]=2})
-        this.setState({grille:this.state.grille[ligne_du_deuxieme_2][colone_du_deuxieme_2]=2})
-    }
+        // this.state = {
+            
+        // }
+    // }
 
     render() {
+        console.log("props de grille:", this.props)
         return (
             <div className="grid-container">
-                {this.state.grille.map((singleRow,rowIndex) => {
+                {this.props.grille.map((singleRow,rowIndex) => {
                     return (
                         <div className="grid" key={rowIndex}>
                             {singleRow.map((element,index) => (

@@ -8,7 +8,7 @@ class Score extends Component {
             score : 0
         }
     }
-
+    
     
     
     render() {
