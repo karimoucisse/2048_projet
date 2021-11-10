@@ -53,6 +53,7 @@ class Grille extends Component {
     // }
 
     render() {
+        console.log("props de grille:", this.props)
         return (
             <div className="grid-container">
                 {this.props.grille.map((singleRow,rowIndex) => {
@@ -82,12 +83,28 @@ class Grille extends Component {
                             ))}
                         </div>
                     )
-                })}
-                
+                })} 
             </div>   
+            // /<div>
+
+            //     <h1>2048</h1>
+            //     <div className="grid" >
+            //         {this.props.grille.map((line) => {
+            //             return (
+            //                 <>
+            //                     {line.map(element => (
+            //                         <span>{element}</span>
+            //                     ))}
+            //                 </>
+            //             )
+            //         })}    
+            //     </div>
+            //     })}
+                
+    //         </div>   
             
-        );  
-    }
+    //     );  
+        )}
 }
 
 export default Grille;
