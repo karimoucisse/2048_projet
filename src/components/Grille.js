@@ -71,10 +71,10 @@ class Grille extends Component {
                                             ${element === 32 && "trente-deux_colors"}
                                             ${element === 64 && "soixante-quatre_colors"}
                                             ${element === 128 && "cent-vingt-huit_colors"}
-                                            ${element === 128 && "cent-vingt-huit_colors"}
                                             ${element === 256 && "deux-cent-cinquante-six_colors"}
-                                            ${element === 256 && "deux-cent-cinquante-six_colors"}
-                                            ${element === 512 && "cinq-cent-douze_colors"}                                        }
+                                            ${element === 512 && "cinq-cent-douze_colors"}
+                                            ${element === 1024 && "mille-vingt-quatre_colors"}
+                                            ${element === 2048 && "deux-mille-quarante-huite_colors"}
                                     `}
                                     
                                 >
