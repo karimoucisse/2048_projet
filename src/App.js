@@ -15,6 +15,7 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
+      moves: 0,
       score: 0 
     } 
     // this.onclickMove=this.onclickMove.bind(this)
@@ -104,6 +105,7 @@ export default class App extends Component {
 
   onclickReset(){
     this.reset()
+    this.setState({moves:0,score:0})
   }
 
   // COMPRESSIONS
@@ -136,7 +138,10 @@ export default class App extends Component {
         }
       }
     }
-    this.setState({ grille: newBoard })
+    this.setState({ 
+      grille: newBoard,
+      moves : this.state.moves +1
+    })
   }
 
   reverseBoard = () => {
@@ -164,7 +169,8 @@ export default class App extends Component {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0]
-    ]      
+    ]  
+
 
     // for (let i = 0; i < board.length; i++) {
     //   let rowIndex = direction === "up" ? 0 : 3
@@ -198,7 +204,10 @@ export default class App extends Component {
           }
         }
       }
-      this.setState({ grille: newBoard })
+      this.setState({
+        grille: newBoard ,
+        moves : this.state.moves +1
+      })
     }
   }
 
@@ -214,7 +223,8 @@ export default class App extends Component {
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
           this.setState({
-            score : this.state.score += board[j][i]
+            score : this.state.score += board[j][i],
+            
           })
           break;
         }
@@ -234,7 +244,8 @@ export default class App extends Component {
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
           this.setState({
-            score : this.state.score += board[j][i]
+            score : this.state.score += board[j][i],
+            
           })
           break;
         }
@@ -315,7 +326,12 @@ export default class App extends Component {
     //   }
     // };
   }
+
+  // TIMER
+
   
+ 
+
 
 
   render() {
@@ -338,7 +354,7 @@ export default class App extends Component {
       
       <div className="main_container">
         <div className="start_buttons">
-          <Score className="score" score={this.state.score}/>
+          <Score className="score" score={this.state.score} moves={this.state.moves}/>
           <Button className="start" label= "start" onclick={this.onclickStart}/>
           <Button label= "reset" classNme="reset" onclick={this.onclickReset} />
         </div>
@@ -353,6 +369,11 @@ export default class App extends Component {
           <Button className="btn_bottom" label= "↓" onclick={this.moveDown} />
           <Button className="btn_left" label= "←" onclick={this.moveLeft} />
           <Button className="btn_right" label= "→" onclick={this.moveRight} />
+        </div>
+        <div>
+          <h2>Timer :</h2>
+          <p>{`00:00:00`}</p>
+          
         </div>
 
       </div>
