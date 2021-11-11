@@ -48,31 +48,31 @@ export default class App extends Component {
   
   reset() {
     this.setState({
-        grille: [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-        ]   
+      grille: [
+          [0,0,0,0],
+          [0,0,0,0],
+          [0,0,0,0],
+          [0,0,0,0],
+      ] ,
+      score: 0,  
     })
-    }
+  }
 
   randomizeGrid(){
-        
-        let ligne_du_premier_2=Math.floor(Math.random()*4); 
-        let colone_du_premier_2=Math.floor(Math.random()*4);
+    let ligne_du_premier_2=Math.floor(Math.random()*4); 
+    let colone_du_premier_2=Math.floor(Math.random()*4);
+
+    const newGrille = this.state.grille
+    newGrille[ligne_du_premier_2][colone_du_premier_2] = 2
     
-        const newGrille = this.state.grille
-        newGrille[ligne_du_premier_2][colone_du_premier_2] = 2
-        
-        this.setState({grille: newGrille})
+    this.setState({grille: newGrille})
     }
 
   randomizeNumber(){
     let ligne_du_premier_2=Math.floor(Math.random()*4); 
     let colone_du_premier_2=Math.floor(Math.random()*4);
     const newBoard = [...this.state.grille]
-
+    // prend aletoirement des nombres avec une condition si dans la grille il y a un 0 , il sera remplacé par une deux 
     if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
       newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
       this.setState({grille: newBoard})
@@ -82,21 +82,9 @@ export default class App extends Component {
   }
     
   // START 
-
-  randomizeNumber(){
-    let ligne_du_premier_2=Math.floor(Math.random()*4); 
-    let colone_du_premier_2=Math.floor(Math.random()*4);
-    const newBoard = [...this.state.grille]
-
-    if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
-      newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
-      this.setState({grille: newBoard})
-    } else {
-      this.randomizeNumber()
-    }
-}
     
   onclickStart() {
+    this.reset()
     this.randomizeGrid()
     this.randomizeGrid()
   }
@@ -304,9 +292,38 @@ export default class App extends Component {
     this.mergeVertical("up")
     this.compressVertical("up")
   }
-
- 
-
+  componentDidMount() {
+    window.addEventListener("keyup", e => {
+      var key = e.keyCode;
+      // console.log(key);
+      if(key === 37){
+        this.moveLeft()
+      }else if(key === 39){
+        this.moveRight()
+        console.log("up");
+      }else if(key === 38){
+        console.log("right");
+        this.moveUp()
+      }else if(key === 40){
+        console.log("down");
+        this.moveDown()
+      }
+    })
+    // window.onkeyup = function(e) {
+    //   var key = e.keyCode;
+    //   // console.log(key);
+    //   if(key === 37){
+    //     this.moveLeft()
+    //     console.log("left");
+    //   }else if(key === 38){
+    //     console.log("up");
+    //   }else if(key === 39){
+    //     console.log("right");
+    //   }else if(key === 40){
+    //     console.log("down");
+    //   }
+    // };
+  }
   
 
 
@@ -337,16 +354,18 @@ export default class App extends Component {
         
         
         <div>
-          {this.state.score===2048?"vous avez gagné !!":<Grille grille= {this.state.grille}/>
-}        </div>
-        
+          {this.state.score===2048?"vous avez gagné !!":<Grille grille= {this.state.grille}/>}  
       </div>
+
         <div className="button_container">
           <Button className="btn_top" label= "↑" onclick={this.moveUp} />
           <Button className="btn_bottom" label= "↓" onclick={this.moveDown} />
           <Button className="btn_left" label= "←" onclick={this.moveLeft} />
           <Button className="btn_right" label= "→" onclick={this.moveRight} />
         </div>
+
+      </div>
+        
     </>
     )
   }
