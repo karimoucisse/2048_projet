@@ -23,38 +23,27 @@ export default class App extends Component {
     this.compress = this.compress.bind(this)
     this.compressVertical = this.compressVertical.bind(this)
     this.merge = this.merge.bind(this)
-    // this.mergeVertical = this.mergeVertical.bind(this)
-    this.moveLeft = this.moveLeft.bind(this)
+    this.mergeVertical = this.mergeVertical.bind(this)
     this.randomizeGrid = this.randomizeGrid.bind(this)
     this.randomizeNumber = this.randomizeNumber.bind(this)
+    this.moveLeft = this.moveLeft.bind(this)
     this.moveRight = this.moveRight.bind(this)
     this.moveUp = this.moveUp.bind(this)
     this.moveDown = this.moveDown.bind(this)
   }
 
   // RANDOM NUMBERS
-
-  // randomizeGrid(){
-  //     let ligne_du_premier_2=Math.floor(Math.random()*4); 
-  //     let colone_du_premier_2=Math.floor(Math.random()*4);
-  //     let ligne_du_deuxieme_2=Math.floor(Math.random()*4);
-  //     let colone_du_deuxieme_2=Math.floor(Math.random()*4);
-  //     const newBoard = [...this.state.grille]
-      
-  //     newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
-  //     newBoard[ligne_du_deuxieme_2][colone_du_deuxieme_2] = 2
-  //     this.setState({grille: newBoard})
-  // }
   
   reset() {
     this.setState({
-      grille: [
-          [0,0,0,0],
-          [0,0,0,0],
-          [0,0,0,0],
-          [0,0,0,0],
-      ] ,
-      score: 0,  
+        grille: [
+            
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+        ],
+        score: 0
     })
   }
 
@@ -168,20 +157,6 @@ export default class App extends Component {
       [0, 0, 0, 0]
     ]      
 
-    // for (let i = 0; i < board.length; i++) {
-    //   let rowIndex = direction === "up" ? 0 : 3
-    //   for (let j = 0; j < board[i].length; j++) {
-    //     if (board[j][i] !== 0) {
-    //       newBoard[rowIndex][i] = board[j][i];
-
-    //       if (direction === "down") {
-    //         rowIndex--;
-    //       } else {
-    //         rowIndex++;
-    //       }
-    //     }
-    //   }
-    // }
     for (let i = 0; i < board.length; i++) {
       if(direction === "up") {
         let rowIndex = 0
@@ -225,8 +200,7 @@ export default class App extends Component {
             score : this.state.score += board[j][i]
           })
           break;
-        }
-
+        } 
       }
     }
     
@@ -251,17 +225,6 @@ export default class App extends Component {
     }
     this.setState({ grille: board })
   }
-
-  // playScore(){
-  //   const board = [...this.state.grille]
-  //   for ( let i = 0; i < board.length; i++){
-  //     for (let j = 0; j < board[i].length; j++){
-  //       // if (  ){
-
-  //       }
-  //     }
-  //   }
-  // }
 
 // MOUVEMENT
 
@@ -292,37 +255,15 @@ export default class App extends Component {
     this.mergeVertical("up")
     this.compressVertical("up")
   }
+
   componentDidMount() {
     window.addEventListener("keyup", e => {
       var key = e.keyCode;
-      // console.log(key);
-      if(key === 37){
-        this.moveLeft()
-      }else if(key === 39){
-        this.moveRight()
-        console.log("up");
-      }else if(key === 38){
-        console.log("right");
-        this.moveUp()
-      }else if(key === 40){
-        console.log("down");
-        this.moveDown()
-      }
+      if(key === 37 || key === 65 || key === 81) this.moveLeft() // Q - A
+      if(key === 39 || key === 68) this.moveRight() // D
+      if(key === 38 || key === 87 || key === 90) this.moveUp() // Z - W 
+      if(key === 40 || key === 83) this.moveDown() // S
     })
-    // window.onkeyup = function(e) {
-    //   var key = e.keyCode;
-    //   // console.log(key);
-    //   if(key === 37){
-    //     this.moveLeft()
-    //     console.log("left");
-    //   }else if(key === 38){
-    //     console.log("up");
-    //   }else if(key === 39){
-    //     console.log("right");
-    //   }else if(key === 40){
-    //     console.log("down");
-    //   }
-    // };
   }
   
 
@@ -346,11 +287,22 @@ export default class App extends Component {
       </div>
       
       <div className="main_container">
-        <div className="start_buttons">
-          <Score className="score" score={this.state.score}/>
-          <Button className="start" label= "start" onclick={this.onclickStart}/>
-          <Button label= "reset" classNme="reset" onclick={this.onclickReset} />
-        </div>
+        {/* <div className="start_buttons"> */}
+          <Score 
+            className="score start_buttons" 
+            score={this.state.score}
+          />
+          <Button 
+            className="start start_buttons" 
+            label= "New" 
+            onclick={this.onclickStart}
+          />
+          <Button  
+            className="reset start_buttons" 
+            label= "Reset" 
+            onclick={this.onclickReset} 
+          />
+        {/* </div> */}
         
         
         <div>
@@ -358,10 +310,26 @@ export default class App extends Component {
       </div>
 
         <div className="button_container">
-          <Button className="btn_top" label= "↑" onclick={this.moveUp} />
-          <Button className="btn_bottom" label= "↓" onclick={this.moveDown} />
-          <Button className="btn_left" label= "←" onclick={this.moveLeft} />
-          <Button className="btn_right" label= "→" onclick={this.moveRight} />
+          <Button 
+            className="btn_top" 
+            label= "↑" 
+            onclick={this.moveUp} 
+          />
+          <Button 
+            className="btn_bottom" 
+            label= "↓" 
+            onclick={this.moveDown}
+          />
+          <Button 
+            className="btn_left" 
+            label= "←" 
+            onclick={this.moveLeft} 
+          />
+          <Button 
+            className="btn_right" 
+            label= "→" 
+            onclick={this.moveRight} 
+          />
         </div>
 
       </div>
