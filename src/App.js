@@ -8,7 +8,7 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
-      position : " ",
+      position : "",
       grille: [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -17,6 +17,7 @@ export default class App extends Component {
       ],
       score: 0 
     } 
+
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
     this.onclickReset=this.onclickReset.bind(this)
@@ -37,15 +38,15 @@ export default class App extends Component {
   reset() {
     this.setState({
         grille: [
-            
-            [0,0,0,0],
+         
+          [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],
         ],
         score: 0
     })
-    }
+  }
 
   randomizeGrid(){
         
@@ -115,24 +116,6 @@ export default class App extends Component {
     }
     this.setState({ grille: newBoard })
   }
-
-  reverseBoard = () => {
-    const board = [...this.state.grille]
-    const reverseBoard = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
-      ]  
-    
-    for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < board[i].length; j++) {
-        reverseBoard[i][j] = board[i][board[i].length - 1 - j];
-      }
-    }
-  
-    this.setState({ grille: reverseBoard })
-  };
 
   compressVertical(direction) {
     const board = [...this.state.grille]
@@ -266,22 +249,21 @@ export default class App extends Component {
       </div>
       
       <div className="main_container">
-        {/* <div className="start_buttons"> */}
-          <Score 
-            className="score start_buttons" 
-            score={this.state.score}
-          />
-          <Button 
-            className="start start_buttons" 
-            label= "New" 
-            onclick={this.onclickStart}
-          />
-          <Button  
-            className="reset start_buttons" 
-            label= "Reset" 
-            onclick={this.onclickReset} 
-          />
-        {/* </div> */}
+        <Score 
+          className="score start_buttons" 
+          score={this.state.score}
+        />
+        <Button 
+          className="start start_buttons" 
+          label= "New" 
+          onclick={this.onclickStart}
+        />
+        <Button  
+          className="reset start_buttons" 
+          label= "Reset" 
+          onclick={this.onclickReset} 
+        />
+        
         
         
         <div>
@@ -309,10 +291,9 @@ export default class App extends Component {
             label= "→" 
             onclick={this.moveRight} 
           />
-        </div>
 
+        </div>
       </div>
-        
     </>
     )
   }
