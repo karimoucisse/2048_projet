@@ -58,7 +58,7 @@ class Grille extends Component {
             <div className="grid-container">
                 {this.props.grille.map((singleRow,rowIndex) => {
                     return (
-                        <div className="grid" key={rowIndex}>
+                        <div className={`grid ${rowIndex === 0 ? "top" : ""} ${rowIndex === 3 ? "bottom" : ""}`} key={rowIndex}>
                             {singleRow.map((element,index) => (
                                 <div 
                                     key={index} 
