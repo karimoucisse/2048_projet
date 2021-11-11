@@ -7,8 +7,8 @@ class Score extends Component {
         return (
             <>
             <div className="score">
-               <div><h2>Score</h2></div> 
-                <div><p>{score}</p></div>
+                <h3>Score</h3>
+                <p>{score}</p>
             </div>
             <div>
                 <div><h2>Moves : </h2></div>
