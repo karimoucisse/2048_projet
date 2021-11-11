@@ -3,6 +3,11 @@ import Button from './components/Bouton';
 import Grille from './components/Grille';
 import './App.css'
 import Score from './components/Score'
+import Profil from './components/Profil';
+import Logos from './components/Logos';
+// const Stopwatch = require('statman-stopwatch');
+// const stopwatch = new Stopwatch();
+// const delta = stopwatch.read()
 
 export default class App extends Component {
   constructor() {
@@ -16,7 +21,10 @@ export default class App extends Component {
         [0, 0, 0, 0]
       ],
       moves: 0,
-      score: 0 
+      score: 0 ,
+      pseudo:"",
+      display : false,
+      className : ""
     } 
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
@@ -31,6 +39,9 @@ export default class App extends Component {
     this.moveRight = this.moveRight.bind(this)
     this.moveUp = this.moveUp.bind(this)
     this.moveDown = this.moveDown.bind(this)
+    this.pseudoValue = this.pseudoValue.bind(this)
+    this.onclickPseudo = this.onclickPseudo.bind(this)
+    this.onclickLogo = this.onclickLogo.bind(this)
   }
 
   // RANDOM NUMBERS
@@ -48,6 +59,7 @@ export default class App extends Component {
         moves:0
     })
     }
+    // RANDOM NUMBERS
 
   randomizeGrid(){
         
@@ -79,6 +91,7 @@ export default class App extends Component {
     this.reset()
     this.randomizeGrid()
     this.randomizeGrid()
+    // stopwatch.start()
   }
 
   onclickReset(){
@@ -215,6 +228,7 @@ export default class App extends Component {
     }
     this.setState({ grille: board })
   }
+  
 
 // MOUVEMENT
 
@@ -259,46 +273,103 @@ export default class App extends Component {
   // TIMER
 
   
- 
-
-
+  pseudoValue(e) {
+    this.setState({pseudo : e.target.value})
+    console.log(this.state.pseudo);
+  }
+  onclickPseudo() {
+    this.setState({display:true})
+  }
+  onclickLogo(logoClassName) {
+    this.setState({ className : logoClassName})
+  }
 
   render() {
     return (
       <>
+      {!this.state.display &&
+        <div className="profil_container">
+          <Profil onChange={this.pseudoValue} onClick={this.onclickPseudo}/>
+          <div className="logos">
+              <h1>Logos</h1>
+              <div>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-male"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-female"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-cat"
+                  colorTernaire = {this.state.className}/>
+              </div> 
+              <div> 
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-crow"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-dragon"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-hippo"
+                  colorTernaire = {this.state.className}/>
+              </div>
+              <div> 
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-horse"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-otter"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-spider"
+                  colorTernaire = {this.state.className}/>
+              </div>
+          </div>
+          <Button onclick={this.onclickPseudo} label="submit"/>
+          
+        </div>
+      }
       
+
+      {this.state.display &&
+      <>
       
       <div className="main_container">
-      <div className="titre">
-        <div>
-          2
+        <div className="titre">
+          <div>
+            2
+          </div>
+          <div>
+            0
+          </div>
+          <div>
+            4
+          </div>
+          <div>
+            8
+          </div>
         </div>
-        <div>
-          0
+        <div className="personnage">
+          <h1>{this.state.pseudo}</h1>
+          <Logos className= {this.state.className}/>
+
         </div>
-        <div>
-          4
-        </div>
-        <div>
-          8
-        </div>
-      </div>
-        {/* <div className="start_buttons"> */}
-          <Score 
-            className="score start_buttons" 
-            score={this.state.score}
-            moves={this.state.moves}
-          />
-          <Button 
-            className="start start_buttons" 
-            label= "New" 
-            onclick={this.onclickStart}
-          />
-          <Button  
-            className="reset start_buttons" 
-            label= "Reset" 
-            onclick={this.onclickReset} 
-          />
+        <Score 
+          className="score start_buttons" 
+          score={this.state.score}
+          moves={this.state.moves}
+        />
+        <Button 
+          className="start start_buttons" 
+          label= "New" 
+          onclick={this.onclickStart}
+        />
+        <Button  
+          className="reset start_buttons" 
+          label= "Reset" 
+          onclick={this.onclickReset} 
+        />
         {/* </div> */}
         
         
@@ -330,12 +401,10 @@ export default class App extends Component {
         </div>
         <div>
           <h2>Timer :</h2>
-          <p>{`00:00:00`}</p>
-          
+          <p>{`0000`}</p>
         </div>
-
-      </div>
-        
+        </div>
+      </>}
     </>
     )
   }
