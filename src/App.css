@@ -55,7 +55,13 @@ background-color: #F0EFEB !important;
 background-color: #D6E2E9 !important;
 }
 .cinq-cent-douze_colors {
-background-color: #BCD4E6;
+background-color: #BCD4E6 !important;
+}
+.mille-vingt-quatre_colors {
+  background-color: #99C1DE !important;
+}
+.deux-mille-quarante-huite_colors {
+  background-color: #7BB1D9 !important;
 }
 
 button {

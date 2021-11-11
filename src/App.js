@@ -44,7 +44,8 @@ export default class App extends Component {
             [0,0,0,0],
             [0,0,0,0],
         ],
-        score: 0
+        score: 0,
+        moves:0
     })
     }
 
@@ -82,7 +83,6 @@ export default class App extends Component {
 
   onclickReset(){
     this.reset()
-    this.setState({moves:0,score:0})
   }
 
   // COMPRESSIONS
@@ -286,6 +286,7 @@ export default class App extends Component {
           <Score 
             className="score start_buttons" 
             score={this.state.score}
+            moves={this.state.moves}
           />
           <Button 
             className="start start_buttons" 
