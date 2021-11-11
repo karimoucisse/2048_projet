@@ -266,6 +266,9 @@ export default class App extends Component {
   render() {
     return (
       <>
+      
+      
+      <div className="main_container">
       <div className="titre">
         <div>
           2
@@ -280,8 +283,6 @@ export default class App extends Component {
           8
         </div>
       </div>
-      
-      <div className="main_container">
         {/* <div className="start_buttons"> */}
           <Score 
             className="score start_buttons" 
