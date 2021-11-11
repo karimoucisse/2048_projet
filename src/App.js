@@ -83,7 +83,7 @@ export default class App extends Component {
   }
 
   // COMPRESSIONS
-
+  //  compresse horizentale
   compress(direction) {
     const board = [...this.state.grille]
     const newBoard = [
@@ -92,7 +92,7 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ]      
-
+      // prends en constat la premier grille intiale ,puis on cree une nouvelle grille. dans la premier boucle en prends chaque ligne du code,  on fait une condition avec la direction car le col index commence a 0, le col index compare les nombres et leur assigne une position si il cooresponde a notre condition
     for (let i = 0; i < board.length; i++) {
       if (direction === "left") {
         let colIndex = 0
@@ -186,7 +186,7 @@ export default class App extends Component {
   }
 
 // UNION 
-
+  // le merge fait fusionner les numeros
   merge(direction) {
     const board = [...this.state.grille]
     const factor = direction === "left" ? 1 : -1
