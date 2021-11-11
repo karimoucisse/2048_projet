@@ -3,6 +3,8 @@ import Button from './components/Bouton';
 import Grille from './components/Grille';
 import './App.css'
 import Score from './components/Score'
+import Profil from './components/Profil';
+import Logos from './components/Logos';
 
 export default class App extends Component {
   constructor() {
@@ -15,7 +17,10 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
-      score: 0 
+      score: 0 ,
+      pseudo:"",
+      display : false,
+      className : ""
     } 
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
@@ -30,21 +35,10 @@ export default class App extends Component {
     this.moveRight = this.moveRight.bind(this)
     this.moveUp = this.moveUp.bind(this)
     this.moveDown = this.moveDown.bind(this)
+    this.pseudoValue = this.pseudoValue.bind(this)
+    this.onclickPseudo = this.onclickPseudo.bind(this)
+    this.onclickLogo = this.onclickLogo.bind(this)
   }
-
-  // RANDOM NUMBERS
-
-  // randomizeGrid(){
-  //     let ligne_du_premier_2=Math.floor(Math.random()*4); 
-  //     let colone_du_premier_2=Math.floor(Math.random()*4);
-  //     let ligne_du_deuxieme_2=Math.floor(Math.random()*4);
-  //     let colone_du_deuxieme_2=Math.floor(Math.random()*4);
-  //     const newBoard = [...this.state.grille]
-      
-  //     newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
-  //     newBoard[ligne_du_deuxieme_2][colone_du_deuxieme_2] = 2
-  //     this.setState({grille: newBoard})
-  // }
   
   reset() {
     this.setState({
@@ -57,6 +51,7 @@ export default class App extends Component {
         ]   
     })
     }
+    // RANDOM NUMBERS
 
   randomizeGrid(){
         
@@ -69,18 +64,18 @@ export default class App extends Component {
         this.setState({grille: newGrille})
     }
 
-  randomizeNumber(){
-    let ligne_du_premier_2=Math.floor(Math.random()*4); 
-    let colone_du_premier_2=Math.floor(Math.random()*4);
-    const newBoard = [...this.state.grille]
+  // randomizeNumber(){
+  //   let ligne_du_premier_2=Math.floor(Math.random()*4); 
+  //   let colone_du_premier_2=Math.floor(Math.random()*4);
+  //   const newBoard = [...this.state.grille]
 
-    if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
-      newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
-      this.setState({grille: newBoard})
-    } else {
-      this.randomizeNumber()
-    }
-  }
+  //   if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
+  //     newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
+  //     this.setState({grille: newBoard})
+  //   } else {
+  //     this.randomizeNumber()
+  //   }
+  // }
     
   // START 
 
@@ -243,6 +238,7 @@ export default class App extends Component {
     }
     this.setState({ grille: board })
   }
+  
 
   // playScore(){
   //   const board = [...this.state.grille]
@@ -317,47 +313,100 @@ export default class App extends Component {
     // };
   }
   
-
+  pseudoValue(e) {
+    this.setState({pseudo : e.target.value})
+    console.log(this.state.pseudo);
+  }
+  onclickPseudo() {
+    this.setState({display:true})
+  }
+  onclickLogo(logoClassName) {
+    this.setState({ className : logoClassName})
+  }
 
   render() {
     return (
       <>
+      {!this.state.display &&
+        <div className="profil_container">
+          <Profil onChange={this.pseudoValue} onClick={this.onclickPseudo}/>
+          <div className="logos">
+              <h1>Logos</h1>
+              <div>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-male"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-female"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-cat"
+                  colorTernaire = {this.state.className}/>
+              </div> 
+              <div> 
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-crow"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-dragon"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-hippo"
+                  colorTernaire = {this.state.className}/>
+              </div>
+              <div> 
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-horse"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-otter"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-spider"
+                  colorTernaire = {this.state.className}/>
+              </div>
+          </div>
+          <Button onclick={this.onclickPseudo} label="submit"/>
+          
+        </div>
+      }
+      
+
+      {this.state.display &&
+      <>
+      
       <div className="titre">
-        <div>
-          2
-        </div>
-        <div>
-          0
-        </div>
-        <div>
-          4
-        </div>
-        <div>
-          8
-        </div>
+        <div>2</div>
+        <div>0</div>
+        <div>4</div>
+        <div>8</div>
+      </div>
+    
+    <div className="main_container">
+    <div className="personnage">
+        <h1>Pseudo: {this.state.pseudo}</h1>
+        <Logos className={this.state.className}/>
+      </div>
+      <div className="start_buttons">
+        <Score className="score" score={this.state.score}/>
+        <Button className="start" label= "start" onclick={this.onclickStart}/>
+        <Button label= "reset" className="reset" onclick={this.onclickReset} />
       </div>
       
-      <div className="main_container">
-        <div className="start_buttons">
-          <Score className="score" score={this.state.score}/>
-          <Button className="start" label= "start" onclick={this.onclickStart}/>
-          <Button label= "reset" classNme="reset" onclick={this.onclickReset} />
-        </div>
-        
-        
-        <div>
-          <Grille grille= {this.state.grille}/>
-        </div>
-
-        <div className="button_container">
-          <Button className="btn_top" label= "↑" onclick={this.moveUp} />
-          <Button className="btn_bottom" label= "↓" onclick={this.moveDown} />
-          <Button className="btn_left" label= "←" onclick={this.moveLeft} />
-          <Button className="btn_right" label= "→" onclick={this.moveRight} />
-        </div>
-
+      
+      <div>
+        <Grille grille= {this.state.grille}/>
       </div>
-        
+
+      <div className="button_container">
+        <Button className="btn_top" label= "↑" onclick={this.moveUp} />
+        <Button className="btn_bottom" label= "↓" onclick={this.moveDown} />
+        <Button className="btn_left" label= "←" onclick={this.moveLeft} />
+        <Button className="btn_right" label= "→" onclick={this.moveRight} />
+      </div>
+
+    </div>
+    </>}
     </>
     )
   }
