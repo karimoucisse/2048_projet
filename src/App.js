@@ -5,8 +5,9 @@ import './App.css'
 import Score from './components/Score'
 import Profil from './components/Profil';
 import Logos from './components/Logos';
-const Stopwatch = require('statman-stopwatch');
-const stopwatch = new Stopwatch();
+const Timer = require('tiny-timer')
+// const Stopwatch = require('statman-stopwatch');
+// const stopwatch = new Stopwatch();
 // const delta = stopwatch.read()
 
 export default class App extends Component {
@@ -25,7 +26,9 @@ export default class App extends Component {
       pseudo:"",
       display : false,
       className : "",
-      pause : false
+
+      pause : false,
+      timer: 0
     } 
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
@@ -94,7 +97,9 @@ export default class App extends Component {
     this.reset()
     this.randomizeGrid()
     this.randomizeGrid()
-    stopwatch.start()
+    const timer = new Timer()
+    timer.on('tick', (ms) => console.log('tick', ms))
+    // stopwatch.start()
   }
 
   onclickReset(){
@@ -291,7 +296,7 @@ export default class App extends Component {
   onClickTakeBackTheParty() {
     this.setState({ pause : false})
   }
-
+  
   render() {
     return (
       <>
@@ -421,7 +426,7 @@ export default class App extends Component {
         </div>
         <div>
           <h2>Timer :</h2>
-          <p>{stopwatch.read()}</p>
+          <p>{setInterval(  }, 500 )}</p>
         </div>
         </div>
       </>}
