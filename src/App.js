@@ -15,7 +15,13 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
-      score: 0
+      moves: 0,
+      score: 0,
+      gridSum: 0,
+      isFull: 0,
+      isOver: false,
+      // on additionne la grille et on injecte le resultats dans temp
+      // temp:2020 
     } 
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
@@ -43,7 +49,9 @@ export default class App extends Component {
             [0,0,0,0],
             [0,0,0,0],
         ],
-        score: 0
+        score: 0,
+        moves:0,
+        
     })
   }
 
@@ -61,13 +69,25 @@ export default class App extends Component {
     let ligne_du_premier_2=Math.floor(Math.random()*4); 
     let colone_du_premier_2=Math.floor(Math.random()*4);
     const newBoard = [...this.state.grille]
+    let countNumber = 0
     // prend aletoirement des nombres avec une condition si dans la grille il y a un 0 , il sera remplacé par une deux 
-    if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
-      newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
-      this.setState({grille: newBoard})
-    } else {
-      this.randomizeNumber()
+    
+    for(let i = 0; i < newBoard.length; i++) {
+      for(let j = 0; j < newBoard[i].length; j++) {
+        if(newBoard[i][j] !== 0){
+          countNumber++
+        }
+      }
     }
+    if(countNumber < 16) {
+      if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
+        newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
+        this.setState({grille: newBoard})
+      } else {
+        this.randomizeNumber()
+      }
+    }
+    this.setState({ isFull: countNumber })
   }
     
   // START 
@@ -81,7 +101,7 @@ export default class App extends Component {
   onclickReset(){
     this.reset()
   }
-
+Z
   // COMPRESSIONS
   //  compresse horizentale
   compress(direction) {
@@ -116,19 +136,22 @@ export default class App extends Component {
       // }
      // this.setState({ grille: newBoard })
     }
-    this.setState({ grille: newBoard })
+    this.setState({ 
+      grille: newBoard,
+      moves : this.state.moves +1
+    })
   }
    //Ne pas toucher
-    tester_fin_partie(){ 
-     const temp=[...this.state.grille];
-     this.moveLeft();
-     this.moveRight();
-     this.moveUp();
-     this.moveDown();
-     if(temp==this.state.grille){
-       console.log("la partie est terminée");
-     }
-   }
+  //   tester_fin_partie(){ 
+  //    const temp=[...this.state.grille];
+  //    this.moveLeft();
+  //    this.moveRight();
+  //    this.moveUp();
+  //    this.moveDown();
+  //    if(temp==this.state.grille){
+  //      console.log("la partie est terminée");
+  //    }
+  //  }
 
   reverseBoard = () => {
     const board = [...this.state.grille]
@@ -145,7 +168,7 @@ export default class App extends Component {
       }
     }
   
-    this.setState({ grille: reverseBoard })
+    this.setState({})
   };
 
   compressVertical(direction) {
@@ -155,7 +178,8 @@ export default class App extends Component {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0]
-    ]      
+    ]  
+
 
     for (let i = 0; i < board.length; i++) {
       if(direction === "up") {
@@ -175,14 +199,11 @@ export default class App extends Component {
           }
         }
       }
-      // this.setState({ grille: newBoard })
-    
-    // fin de partie 8(Ne pas toucher)
-    // if(newBoard != board){
-    //   alert('Felicitation ta grand Mere peut etre fiere de toi !')
-    // }
-    this.setState({ grille: newBoard })
-}
+      this.setState({
+        grille: newBoard ,
+        moves : this.state.moves +1
+      })
+    }
   }
 
 // UNION 
@@ -197,7 +218,8 @@ export default class App extends Component {
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
           this.setState({
-            score : this.state.score += board[j][i]
+            score : this.state.score += board[j][i],
+            
           })
           break;
         } 
@@ -217,7 +239,8 @@ export default class App extends Component {
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
           this.setState({
-            score : this.state.score += board[j][i]
+            score : this.state.score += board[j][i],
+            
           })
           break;
         }
@@ -229,31 +252,35 @@ export default class App extends Component {
 // MOUVEMENT
 
   moveLeft(){
-    this.randomizeNumber()
     this.compress("left")
     this.merge("left")
     this.compress("left")
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   
   moveRight(){
-    this.randomizeNumber()
     this.compress("right")
     this.merge("right")
     this.compress("right")
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   
   moveDown(){
-    this.randomizeNumber()
     this.compressVertical("down")
     this.mergeVertical("down")
     this.compressVertical("down")
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   
   moveUp() {
-    this.randomizeNumber()
     this.compressVertical("up")
     this.mergeVertical("up")
     this.compressVertical("up")
+    this.randomizeNumber()
+    this.calculateGrid()
   }
 
   componentDidMount() {
@@ -265,10 +292,41 @@ export default class App extends Component {
       if(key === 40 || key === 83) this.moveDown() // S
     })
   }
+
+  calculateGrid(){
+    const result = this.state.grille.reduce((previous, current ) => {
+      const somme = current.reduce((previous2, currrent2) => {
+        return previous2 + currrent2 
+      }) 
+      console.log("Somme", somme) 
+      return previous + somme    
+    }, 0)
+    // console.log("resultat Calculate Grid",result )
+    // setState est une methode qui change l'etat de mes states  elle prend un objet comme parametre on met une clef valeur
+    this.setState({ gridSum: result })
+  }
   
+  // calculateGrid()
+  // TIMER
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate prevState gridsum",prevState.gridSum )
+    console.log("State grid Sum",this.state.gridSum) 
+     if(this.state.gridSum > prevState.gridSum)
+    //  {console.log("continue le jeu" )}
+     else if (this.state.gridSum === prevState.gridSum && this.state.isFull === 16) {
+      //  console.log("game over")
+       this.setState({ isOver: true })
+     }
+
+  }
+ 
+
 
 
   render() {
+    console.log("isOver:", this.state.isOver);
+    
     return (
       <>
       <div className="titre">
@@ -291,6 +349,7 @@ export default class App extends Component {
           <Score 
             className="score start_buttons" 
             score={this.state.score}
+            moves={this.state.moves}
           />
           <Button 
             className="start start_buttons" 
@@ -330,6 +389,11 @@ export default class App extends Component {
             label= "→" 
             onclick={this.moveRight} 
           />
+        </div>
+        <div>
+          <h2>Timer :</h2>
+          <p>{`00:00:00`}</p>
+          
         </div>
 
       </div>
