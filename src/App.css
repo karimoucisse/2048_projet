@@ -1,10 +1,15 @@
+* {
+  box-sizing: border-box;
+}
 body {
   background-color: #FAF8EF;
   font-family: 'Righteous';
 }
-* {
-  box-sizing: border-box;
-}
+/* :root {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+} */
 #root {
   padding: 40px;
   display: flex;
@@ -53,6 +58,7 @@ body {
 .profil {
   display: flex;
   justify-content: center;
+  font-size: 30px;
 }
 .profil .form {
   display: flex;
@@ -173,8 +179,21 @@ button {
   font-size: 28px;
   
 }
+.grid_top {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.grid_top i {
+  font-size: 35px;
+  cursor: pointer;
+}
+.grid_top i:hover {
+  transform: scale(1.03);
+  color: rgb(94, 92, 92);
+}
 .score {
-  padding: 10px 15px;
+  padding: 3px 0;
   border-radius: 20px;
   background-color: #7BB1D9;
   line-height: 15px;
@@ -187,7 +206,7 @@ button {
   top: 165px;
   right: -164px;
   text-align: center;
-  padding-bottom: 25px;
+  /* padding-bottom: 25px; */
 }
 
 .move {
@@ -252,13 +271,36 @@ button:hover {
 
 .start {
   position: absolute;
-  bottom: 193px;
+  bottom: 298px;
   right: -167px;
 }
 .reset {
   position: absolute;
-  bottom: 125px;
+  bottom: 206px;
   right: -167px;
+}
+.Pause_container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding-top: 30vh;
+  gap: 70px;
+  /* justify-content: center;*/
+  align-items: center; 
+  top: 0;
+  left: 0;
+  background-color: rgba(63, 61, 61,0.7);
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+}
+.Pause_container div {
+  font-size: 30px;
+}
+.Pause_container button {
+  width: 170px;
+  height: 60px;
 }
 
 .button_container {
@@ -345,18 +387,6 @@ button:hover {
   align-items: center; 
 } */
 
-.block_top{
-  transform: translate(0,-40px);
-}
-.block_bottom{
-  transform: translate(0,40px);
-}
-.block_left{
-  transform: translate(-40px,0);
-}
-.block_right{
-  transform: translate(40px,0);
-}
 
 .grid-container {
   margin-top: 40px;
@@ -369,6 +399,7 @@ padding: 5px;
 /* border-radius: 5px; */
 /* margin-top: 10px; */
 display: flex;
+box-shadow: 4px 4px 6px grey;
 }
 
 .top {

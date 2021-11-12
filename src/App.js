@@ -24,12 +24,17 @@ export default class App extends Component {
       testCounter2 : 0,
       moves: 0,
       score: 0,
+      gridSum: 0,
+      isFull: 0,
       isOver: false,
+      // on additionne la grille et on injecte le resultats dans temp
+      // temp:2020 
       pseudo:"",
       display : false,
       className : "",
-      counterP: 0,
-      counterD: 0
+
+      pause : false,
+      timer: 0
     } 
 
     // this.onclickMove=this.onclickMove.bind(this)
@@ -48,9 +53,8 @@ export default class App extends Component {
     this.pseudoValue = this.pseudoValue.bind(this)
     this.onclickPseudo = this.onclickPseudo.bind(this)
     this.onclickLogo = this.onclickLogo.bind(this)
-    this.counter1 = this.counter1.bind(this)
-    this.counter2 = this.counter2.bind(this)
-    this.isGameOver = this.isGameOver.bind(this)
+    this.onclickPause = this.onclickPause.bind(this)
+    this.onClickTakeBackTheParty = this.onClickTakeBackTheParty.bind(this)
   }
 
   // RANDOM NUMBERS
@@ -65,66 +69,62 @@ export default class App extends Component {
         ],
         score: 0,
         moves:0,
-        counterP: 0,
-        counterD: 0
+        
     })
-    }
-    // RANDOM NUMBERS
+  }
 
   randomizeGrid(){
-        
-        let ligne_du_premier_2=Math.floor(Math.random()*4); 
-        let colone_du_premier_2=Math.floor(Math.random()*4);
+    let ligne_du_premier_2=Math.floor(Math.random()*4); 
+    let colone_du_premier_2=Math.floor(Math.random()*4);
+
+    const newGrille = this.state.grille
+    newGrille[ligne_du_premier_2][colone_du_premier_2] = 2
     
-        const newGrille = this.state.grille
-        newGrille[ligne_du_premier_2][colone_du_premier_2] = 2
-        
-        this.setState({grille: newGrille})
+    this.setState({grille: newGrille})
     }
 
   randomizeNumber(){
     let ligne_du_premier_2=Math.floor(Math.random()*4); 
     let colone_du_premier_2=Math.floor(Math.random()*4);
     const newBoard = [...this.state.grille]
-    let countNumber = 0 
+    let countNumber = 0
+    // prend aletoirement des nombres avec une condition si dans la grille il y a un 0 , il sera remplacé par une deux 
     
     for(let i = 0; i < newBoard.length; i++) {
       for(let j = 0; j < newBoard[i].length; j++) {
-        if (newBoard[i][j] !== 0 ) {
+        if(newBoard[i][j] !== 0){
           countNumber++
         }
       }
     }
 
-    if( countNumber < 16 ) {
+    if(countNumber < 16) {
       if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
         newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
         this.setState({grille: newBoard})
       } else {
         this.randomizeNumber()
       }
-     
     }
-    console.log(`test : ${countNumber}`);
+
+    this.setState({ isFull: countNumber })
   }
     
   // START 
     
   onclickStart() {
     this.reset()
-    this.counter1()
     this.randomizeGrid()
     this.randomizeGrid()
-    this.counter2()
   }
   // stopwatch.start()
 
   onclickReset(){
     this.reset()
   }
-
+Z
   // COMPRESSIONS
-
+  //  compresse horizentale
   compress(direction) {
     const board = [...this.state.grille]
     const newBoard = [
@@ -133,7 +133,7 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ]      
-
+      // prends en constat la premier grille intiale ,puis on cree une nouvelle grille. dans la premier boucle en prends chaque ligne du code,  on fait une condition avec la direction car le col index commence a 0, le col index compare les nombres et leur assigne une position si il cooresponde a notre condition
     for (let i = 0; i < board.length; i++) {
       if (direction === "left") {
         let colIndex = 0
@@ -152,12 +152,27 @@ export default class App extends Component {
           }
         }
       }
+      // if(newBoard != board){
+      //   alert('bravo !')
+      // }
+     // this.setState({ grille: newBoard })
     }
     this.setState({ 
       grille: newBoard,
       moves : this.state.moves +1
     })
   }
+   //Ne pas toucher
+  //   tester_fin_partie(){ 
+  //    const temp=[...this.state.grille];
+  //    this.moveLeft();
+  //    this.moveRight();
+  //    this.moveUp();
+  //    this.moveDown();
+  //    if(temp==this.state.grille){
+  //      console.log("la partie est terminée");
+  //    }
+  //  }
 
   compressVertical(direction) {
     const board = [...this.state.grille]
@@ -195,10 +210,11 @@ export default class App extends Component {
   }
 
 // UNION 
-
+  // le merge fait fusionner les numeros
   merge(direction) {
     const board = [...this.state.grille]
     const factor = direction === "left" ? 1 : -1
+    let newScore = this.state.score
 
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
@@ -210,10 +226,13 @@ export default class App extends Component {
         } 
       }
     }
+    
+    this.setState({ grille: board})
   }
 
   mergeVertical(direction) {
     const board = [...this.state.grille]
+    let newScore = this.state.score
     const factor = direction === "up" ? 1 : -1
     const limit =  direction === "up" ? board.length - 1 : board.length
     for (let i = 0; i < board.length; i++) {
@@ -221,60 +240,12 @@ export default class App extends Component {
         if (board[j + factor] && board[j][i] !== 0 && board[j][i] === board[j + factor][i]) {
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
-          this.setState({ score : this.state.score += board[j][i] })
+          this.setState({ score : newScore += board[j][i] })
           break;
         }
       }
     }
   }
-
-// COUNTER
-  
-  counter1() {
-    const grille = this.state.grille
-    let counter1 = this.state.counterP
-    
-
-    for(let i = 0; i < grille.length; i++) {
-      for(let j = 0; j < grille[i].length; j++) {
-        console.log(grille[i][j])
-        counter1 += grille[i][j]
-      }
-    }
-    this.setState({ counterP : counter1 })
-    this.setState({ testCounter1 : this.state.counterP})
-    this.setState({ counterP : 0 })
-  }
-  
-  counter2() {
-    const grille = this.state.grille
-    let counter2 = this.state.counterD
-    
-    
-    for(let i = 0; i < grille.length; i++) {
-      for(let j = 0; j < grille[i].length; j++) {
-        // console.log(grille[i][j])
-        counter2 += grille[i][j]
-        // console.log(`grill ; ${grille[i][j]}`);
-      }
-    }
-    this.setState({ counterD : counter2 })
-    this.setState({ testCounter2 : this.state.counterD})
-    this.setState({ counterD : 0 })
-    // console.log("counterD:", this.state.counterD)
-
-
-  }
-
-  isGameOver(){
-    if (this.state.testCounter1 = this.state.testCounter2) {
-      this.setState({ isOver: false})
-      this.randomizeNumber()
-    } else {
-      this.setState({ isOver: true})
-    }
-  }
-  
 
 // MOUVEMENT
 
@@ -291,62 +262,80 @@ export default class App extends Component {
   // }
 
   moveLeft(){
-    this.counter1()
-    this.isGameOver()
     this.compress("left")
     this.merge("left")
     this.compress("left")
-    // this.setState({ counterD : 0 })
-    this.counter2()
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   // this.move("left")
   
   moveRight(){
-    this.counter1()
-    this.isGameOver()
     this.compress("right")
     this.merge("right")
     this.compress("right")
-    this.counter2()
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   // this.move("right")
   
   moveDown(){
-    this.counter1()
-    this.isGameOver()
     this.compressVertical("down")
     this.mergeVertical("down")
     this.compressVertical("down")
-    this.counter2()
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   // this.move("down")
   
   moveUp() {
-    this.counter1()
-    this.isGameOver()
     this.compressVertical("up")
     this.mergeVertical("up")
     this.compressVertical("up")
-    this.counter2()
+    this.randomizeNumber()
+    this.calculateGrid()
   }
   // this.move("up")
 
   componentDidMount() {
     window.addEventListener("keyup", e => {
       var key = e.keyCode;
-      if(key === 37 || key === 65 || key === 81) this.moveLeft() // Q - A
-      if(key === 39 || key === 68) this.moveRight() // D
-      if(key === 38 || key === 87 || key === 90) this.moveUp() // Z - W 
-      if(key === 40 || key === 83) this.moveDown() // S
+      if(key === 37 ) this.moveLeft() // Q - A
+      if(key === 39 ) this.moveRight() // D
+      if(key === 38 ) this.moveUp() // Z - W 
+      if(key === 40 ) this.moveDown() // S
     })
   }
 
+  calculateGrid(){
+    const result = this.state.grille.reduce((previous, current ) => {
+      const somme = current.reduce((previous2, currrent2) => {
+        return previous2 + currrent2 
+      }) 
+      console.log("Somme", somme) 
+      return previous + somme    
+    }, 0)
+    // console.log("resultat Calculate Grid",result )
+    // setState est une methode qui change l'etat de mes states  elle prend un objet comme parametre on met une clef valeur
+    this.setState({ gridSum: result })
+  }
+  
+  // calculateGrid()
   // TIMER
 
-  
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate prevState gridsum",prevState.gridSum )
+    console.log("State grid Sum",this.state.gridSum) 
+    if(this.state.isOver === false) {
+      if (this.state.gridSum === prevState.gridSum && this.state.isFull === 16) {
+        //  console.log("game over")
+         this.setState({ isOver: true })
+      }
+    }
+  }
+ 
   pseudoValue(e) {
     this.setState({pseudo : e.target.value})
-    console.log(this.state.pseudo);
   }
   onclickPseudo() {
     this.setState({display:true})
@@ -354,18 +343,26 @@ export default class App extends Component {
   onclickLogo(logoClassName) {
     this.setState({ className : logoClassName})
   }
-
+  onclickPause() {
+    this.setState({ pause : true})
+  }
+  onClickTakeBackTheParty() {
+    this.setState({ pause : false})
+  }
+  
   render() {
-    // console.log("counter1:", this.state.counterP)
-    // console.log(`counterTest1 : ${this.state.testCounter1}`);
-    // console.log(`counterTest2 : ${this.state.testCounter2}`);
-    // console.log("counter2:", this.state.counterD)
-    // console.log(this.state.isMerging)
-    // console.log(this.merge())
+    console.log("isFull:", this.state.isFull);
+    
     return (
       <>
-      
-
+      {this.state.pause === true && 
+            <div className="Pause_container"> 
+              <div>score: {this.state.score}</div>
+              <div>moves: {this.state.moves}</div>
+              <div>time : 0000</div>
+              <Button label="reprendre" onclick={this.onClickTakeBackTheParty}/>
+            </div>
+      }
       {!this.state.display &&
         <div className="profil_container">
           <Profil onChange={this.pseudoValue} onClick={this.onclickPseudo}/>
@@ -434,11 +431,15 @@ export default class App extends Component {
           <Logos className= {this.state.className}/>
 
         </div>
-        <Score 
-          className="score start_buttons" 
-          score={this.state.score}
-          moves={this.state.moves}
-        />
+        <div className="grid_top">
+          <Score 
+            className="score start_buttons" 
+            score={this.state.score}
+            moves={this.state.moves}
+          />
+          <Logos className = "fas fa-pause" onClick={this.onclickPause}/>
+        </div>
+        
         <Button 
           className="start start_buttons" 
           label= "New" 
@@ -490,7 +491,7 @@ export default class App extends Component {
 
         <div className="timer">
           <h2>Timer :</h2>
-          <p>{`0000`}</p>
+          {/* <p>{stopwatch.read()}</p> */}
         </div>
         </div>
       </>}
@@ -498,5 +499,3 @@ export default class App extends Component {
     )
   }
 }
-
-
