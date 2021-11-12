@@ -69,7 +69,7 @@ export default class App extends Component {
         ],
         score: 0,
         moves:0,
-        
+        isOver: false,
     })
   }
 
@@ -300,10 +300,10 @@ Z
   componentDidMount() {
     window.addEventListener("keyup", e => {
       var key = e.keyCode;
-      if(key === 37 ) this.moveLeft() // Q - A
-      if(key === 39 ) this.moveRight() // D
-      if(key === 38 ) this.moveUp() // Z - W 
-      if(key === 40 ) this.moveDown() // S
+      if(key === 37 ) this.moveLeft()
+      if(key === 39 ) this.moveRight() 
+      if(key === 38 ) this.moveUp() 
+      if(key === 40 ) this.moveDown() 
     })
   }
 
@@ -466,7 +466,7 @@ Z
         }
         
 
-        <div className="button_container">
+        {/* <div className="button_container">
           <Button 
             className="btn_top" 
             label= "↑" 
@@ -487,12 +487,12 @@ Z
             label= "→" 
             onclick={this.moveRight} 
           />
-        </div>
+        </div> */}
 
-        <div className="timer">
+        {/* <div className="timer">
           <h2>Timer :</h2>
-          {/* <p>{stopwatch.read()}</p> */}
-        </div>
+          <p>{stopwatch.read()}</p>
+        </div> */}
         </div>
       </>}
     </>

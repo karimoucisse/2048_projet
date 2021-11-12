@@ -36,7 +36,7 @@ body {
 .titre {
   font-size: 3.5em;
   position: absolute;
-  top: 144px;
+  top: 216px;
   left: -52px;
   color: #756E64;
 }
@@ -203,7 +203,7 @@ button {
   height: 130px;
   color: rgb(255, 255, 255);
   position: absolute;
-  top: 165px;
+  top: 276px;
   right: -164px;
   text-align: center;
   /* padding-bottom: 25px; */
@@ -211,8 +211,8 @@ button {
 
 .move {
   position: absolute;
-  bottom: -26px;
-  right: 117px;
+  top: 81px;
+  right: 78px;
   text-align: end;
   color: #756E64;
 }
@@ -226,8 +226,8 @@ button {
 }
 
 .filter{
-  width: 101vw;
-  height: 112vh;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   color: black;
   display: flex;
@@ -235,9 +235,9 @@ button {
   justify-content: center;
   align-items: center;
   z-index: 10;
-  position: absolute;
-  top: -140px;
-  left: -500px;
+  position: fixed;
+  top: -100px;
+  left: 0px;
 }
 
 button:hover {
@@ -271,12 +271,12 @@ button:hover {
 
 .start {
   position: absolute;
-  bottom: 298px;
+  bottom: 160px;
   right: -167px;
 }
 .reset {
   position: absolute;
-  bottom: 206px;
+  bottom: 86px;
   right: -167px;
 }
 .Pause_container {
@@ -322,14 +322,15 @@ button:hover {
   bottom: 144px;
   width: 57px;
   height: 57px;
-  background-color: #7BB1D9;
+  background-color: #FAF8EF;
+  color: #FAF8EF;
   border-radius: 50px;
   font-size: 20px;
 }
-.btn_left:hover {
+/* .btn_left:hover {
   background-color:#6796b9;
   color: #fff;
-}
+} */
 
 .btn_right {
   position: absolute;
@@ -337,14 +338,15 @@ button:hover {
   bottom: 144px;
   width: 57px;
   height: 57px;
-  background-color: #7BB1D9;
+  background-color: #FAF8EF;
+  color: #FAF8EF;
   border-radius: 50px;
   font-size: 20px;
 }
-.btn_right:hover {
+/* .btn_right:hover {
   background-color:#6796b9;
   color: #fff;
-}
+} */
 
 .btn_top {
   position: absolute;
@@ -352,14 +354,15 @@ button:hover {
   bottom: 190px;
   width: 57px;
   height: 57px;
-  background-color: #7BB1D9;
+  background-color: #FAF8EF;
+  color: #FAF8EF;
   border-radius: 50px;
   font-size: 20px;
 }
-.btn_top:hover {
+/* .btn_top:hover {
   background-color:#6796b9;
   color: #fff;
-}
+} */
 
 .btn_bottom {
   position: absolute;
@@ -367,15 +370,16 @@ button:hover {
   bottom: 103px;
   width: 57px;
   height: 57px;
-  background-color: #7BB1D9;
+  background-color: #FAF8EF;
+  color: #FAF8EF;
   border-radius: 50px;
   font-size: 20px;
 }
 
-.button_container button:hover {
+/* .button_container button:hover {
   background-color:#6796b9;
   color: #fff;
-}
+} */
 
 /* .block {
   height: var();
