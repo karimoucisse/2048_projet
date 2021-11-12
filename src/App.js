@@ -3,6 +3,11 @@ import Button from './components/Bouton';
 import Grille from './components/Grille';
 import './App.css'
 import Score from './components/Score'
+import Profil from './components/Profil';
+import Logos from './components/Logos';
+// const Stopwatch = require('statman-stopwatch');
+// const stopwatch = new Stopwatch();
+// const delta = stopwatch.read()
 
 export default class App extends Component {
   constructor() {
@@ -15,9 +20,16 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
+      testCounter1 : 0,
+      testCounter2 : 0,
       moves: 0,
       score: 0,
       isOver: false,
+      pseudo:"",
+      display : false,
+      className : "",
+      counterP: 0,
+      counterD: 0
     } 
 
     // this.onclickMove=this.onclickMove.bind(this)
@@ -33,8 +45,12 @@ export default class App extends Component {
     this.moveRight = this.moveRight.bind(this)
     this.moveUp = this.moveUp.bind(this)
     this.moveDown = this.moveDown.bind(this)
+    this.pseudoValue = this.pseudoValue.bind(this)
+    this.onclickPseudo = this.onclickPseudo.bind(this)
+    this.onclickLogo = this.onclickLogo.bind(this)
     this.counter1 = this.counter1.bind(this)
     this.counter2 = this.counter2.bind(this)
+    this.isGameOver = this.isGameOver.bind(this)
   }
 
   // RANDOM NUMBERS
@@ -42,16 +58,18 @@ export default class App extends Component {
   reset() {
     this.setState({
         grille: [
-         
           [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
+          [0,0,0,0],
+          [0,0,0,0],
+          [0,0,0,0]
         ],
         score: 0,
-        moves:0
+        moves:0,
+        counterP: 0,
+        counterD: 0
     })
-  }
+    }
+    // RANDOM NUMBERS
 
   randomizeGrid(){
         
@@ -68,22 +86,38 @@ export default class App extends Component {
     let ligne_du_premier_2=Math.floor(Math.random()*4); 
     let colone_du_premier_2=Math.floor(Math.random()*4);
     const newBoard = [...this.state.grille]
-
-    if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
-      newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
-      this.setState({grille: newBoard})
-    } else {
-      this.randomizeNumber()
+    let countNumber = 0 
+    
+    for(let i = 0; i < newBoard.length; i++) {
+      for(let j = 0; j < newBoard[i].length; j++) {
+        if (newBoard[i][j] !== 0 ) {
+          countNumber++
+        }
+      }
     }
+
+    if( countNumber < 16 ) {
+      if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
+        newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
+        this.setState({grille: newBoard})
+      } else {
+        this.randomizeNumber()
+      }
+     
+    }
+    console.log(`test : ${countNumber}`);
   }
     
   // START 
     
   onclickStart() {
     this.reset()
+    this.counter1()
     this.randomizeGrid()
     this.randomizeGrid()
+    this.counter2()
   }
+  // stopwatch.start()
 
   onclickReset(){
     this.reset()
@@ -171,10 +205,7 @@ export default class App extends Component {
         if (board[i][j] !== 0 && board[i][j] === board[i][j + factor]) {
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
-          this.setState({
-            score : this.state.score += board[j][i],
-            
-          })
+          this.setState({ score : this.state.score += board[j][i] })
           break;
         } 
       }
@@ -190,10 +221,7 @@ export default class App extends Component {
         if (board[j + factor] && board[j][i] !== 0 && board[j][i] === board[j + factor][i]) {
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
-          this.setState({
-            score : this.state.score += board[j][i],
-            
-          })
+          this.setState({ score : this.state.score += board[j][i] })
           break;
         }
       }
@@ -204,82 +232,104 @@ export default class App extends Component {
   
   counter1() {
     const grille = this.state.grille
-    let counterP = 0
+    let counter1 = this.state.counterP
+    
 
     for(let i = 0; i < grille.length; i++) {
       for(let j = 0; j < grille[i].length; j++) {
-        if (grille[i][j] !== 0) {
-          counterP += grille[i][j]
-        }
+        console.log(grille[i][j])
+        counter1 += grille[i][j]
       }
     }
-    console.log("counter1:", counterP)
+    this.setState({ counterP : counter1 })
+    this.setState({ testCounter1 : this.state.counterP})
+    this.setState({ counterP : 0 })
   }
-
+  
   counter2() {
     const grille = this.state.grille
-    let counterD = 0
-
+    let counter2 = this.state.counterD
+    
+    
     for(let i = 0; i < grille.length; i++) {
       for(let j = 0; j < grille[i].length; j++) {
-        if (grille[i][j] !== 0) {
-          counterD += grille[i][j]
-        }
+        // console.log(grille[i][j])
+        counter2 += grille[i][j]
+        // console.log(`grill ; ${grille[i][j]}`);
       }
     }
-    console.log("counter2:", counterD)
+    this.setState({ counterD : counter2 })
+    this.setState({ testCounter2 : this.state.counterD})
+    this.setState({ counterD : 0 })
+    // console.log("counterD:", this.state.counterD)
+
+
   }
 
   isGameOver(){
-    this.counter2()
-    if (this.counter1() < this.counter2) {
-      this.setState({ isOver: true})
-    } else {
+    if (this.state.testCounter1 = this.state.testCounter2) {
       this.setState({ isOver: false})
+      this.randomizeNumber()
+    } else {
+      this.setState({ isOver: true})
     }
   }
+  
 
 // MOUVEMENT
 
-  move(direction) {
-    if (direction === "left" || direction === "right") {
-      this.compress(direction)
-      this.merge(direction)
-      this.compress(direction)
-    } else {
-      this.compressVertical(direction)
-      this.mergeVertical(direction)
-      this.compressVertical(direction)
-    }
-  }
+  // move(direction) {
+  //   if (direction === "left" || direction === "right") {
+  //     this.compress(direction)
+  //     this.merge(direction)
+  //     this.compress(direction)
+  //   } else if (direction === "up" || direction === "down"){
+  //     this.compressVertical(direction)
+  //     this.mergeVertical(direction)
+  //     this.compressVertical(direction)
+  //   }
+  // }
 
   moveLeft(){
     this.counter1()
-    this.move("left")
-    this.randomizeNumber()
     this.isGameOver()
+    this.compress("left")
+    this.merge("left")
+    this.compress("left")
+    // this.setState({ counterD : 0 })
+    this.counter2()
   }
+  // this.move("left")
   
   moveRight(){
     this.counter1()
-    this.move("right")
-    this.randomizeNumber()
     this.isGameOver()
+    this.compress("right")
+    this.merge("right")
+    this.compress("right")
+    this.counter2()
   }
+  // this.move("right")
   
   moveDown(){
     this.counter1()
-    this.move("down")
-    this.randomizeNumber()
     this.isGameOver()
+    this.compressVertical("down")
+    this.mergeVertical("down")
+    this.compressVertical("down")
+    this.counter2()
   }
+  // this.move("down")
   
   moveUp() {
     this.counter1()
-    this.move("up")
-    this.randomizeNumber()
     this.isGameOver()
+    this.compressVertical("up")
+    this.mergeVertical("up")
+    this.compressVertical("up")
+    this.counter2()
   }
+  // this.move("up")
 
   componentDidMount() {
     window.addEventListener("keyup", e => {
@@ -294,56 +344,126 @@ export default class App extends Component {
   // TIMER
 
   
- 
-
-
+  pseudoValue(e) {
+    this.setState({pseudo : e.target.value})
+    console.log(this.state.pseudo);
+  }
+  onclickPseudo() {
+    this.setState({display:true})
+  }
+  onclickLogo(logoClassName) {
+    this.setState({ className : logoClassName})
+  }
 
   render() {
+    // console.log("counter1:", this.state.counterP)
+    // console.log(`counterTest1 : ${this.state.testCounter1}`);
+    // console.log(`counterTest2 : ${this.state.testCounter2}`);
+    // console.log("counter2:", this.state.counterD)
     // console.log(this.state.isMerging)
     // console.log(this.merge())
     return (
       <>
-      <div className="titre">
-        <div>
-          2
+      
+
+      {!this.state.display &&
+        <div className="profil_container">
+          <Profil onChange={this.pseudoValue} onClick={this.onclickPseudo}/>
+          <div className="logos">
+              <h1>Logos</h1>
+              <div>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-male"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-female"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-cat"
+                  colorTernaire = {this.state.className}/>
+              </div> 
+              <div> 
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-crow"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-dragon"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-hippo"
+                  colorTernaire = {this.state.className}/>
+              </div>
+              <div> 
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-horse"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-otter"
+                  colorTernaire = {this.state.className}/>
+                <Logos onClick= {this.onclickLogo} 
+                  className="fas fa-spider"
+                  colorTernaire = {this.state.className}/>
+              </div>
+          </div>
+          <Button onclick={this.onclickPseudo} label="submit"/>
+          
         </div>
-        <div>
-          0
-        </div>
-        <div>
-          4
-        </div>
-        <div>
-          8
-        </div>
-      </div>
+      }
+      
+
+      {this.state.display &&
+      <>
       
       <div className="main_container">
-          <Score 
-            className="score start_buttons move" 
-            score={this.state.score}
-            moves={this.state.moves}
-          />
-          <Button 
-            className="start start_buttons" 
-            label= "New" 
-            onclick={this.onclickStart}
-          />
-          <Button  
-            className="reset start_buttons" 
-            label= "Reset" 
-            onclick={this.onclickReset} 
-          />
-          {!this.state.isOver ? 
+        <div className="titre">
           <div>
-            <Grille grille= {this.state.grille}/>
-          </div> 
-          :
+            2
+          </div>
           <div>
-            <p className="filter">Game Over</p>
+            0
+          </div>
+          <div>
+            4
+          </div>
+          <div>
+            8
+          </div>
+        </div>
+        <div className="personnage">
+          <h1>{this.state.pseudo}</h1>
+          <Logos className= {this.state.className}/>
+
+        </div>
+        <Score 
+          className="score start_buttons" 
+          score={this.state.score}
+          moves={this.state.moves}
+        />
+        <Button 
+          className="start start_buttons" 
+          label= "New" 
+          onclick={this.onclickStart}
+        />
+        <Button  
+          className="reset start_buttons" 
+          label= "Reset" 
+          onclick={this.onclickReset} 
+        />
+        {/* </div> */}
+        
+        {!this.state.isOver ? 
+        <div>
+          <Grille grille= {this.state.grille}/>
+        </div> 
+        :
+        <>
+          <p className="filter">Game Over</p>
+          <div>
             <Grille grille= {this.state.grille}/>
           </div>
-          }
+        </>
+        }
+        
 
         <div className="button_container">
           <Button 
@@ -370,10 +490,10 @@ export default class App extends Component {
 
         <div className="timer">
           <h2>Timer :</h2>
-          <p>{`00:00:00`}</p>
-          
+          <p>{`0000`}</p>
         </div>
-      </div>
+        </div>
+      </>}
     </>
     )
   }
