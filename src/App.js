@@ -230,6 +230,7 @@ Z
   merge(direction) {
     const board = [...this.state.grille]
     const factor = direction === "left" ? 1 : -1
+    let newScore = this.state.score
 
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
@@ -237,7 +238,7 @@ Z
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
           this.setState({
-            score : this.state.score += board[j][i],
+            score : newScore += board[j][i],
             
           })
           break;
@@ -250,6 +251,7 @@ Z
 
   mergeVertical(direction) {
     const board = [...this.state.grille]
+    let newScore = this.state.score
     const factor = direction === "up" ? 1 : -1
     const limit =  direction === "up" ? board.length - 1 : board.length
     for (let i = 0; i < board.length; i++) {
@@ -258,7 +260,7 @@ Z
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
           this.setState({
-            score : this.state.score += board[j][i],
+            score : newScore += board[j][i],
             
           })
           break;
