@@ -95,6 +95,29 @@ button {
   padding-bottom: 25px;
 }
 
+.move {
+  position: absolute;
+  bottom: -26px;
+  right: 117px;
+  text-align: end;
+  color: #756E64;
+}
+
+.timer {
+  position: absolute;
+  bottom: -26px;
+  right: 450px;
+  text-align: end;
+  color: #756E64;
+}
+
+.filter{
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.164);
+  color: #756E64;
+}
+
 button:hover {
   background-color:#eb8881;
   color: #fff;

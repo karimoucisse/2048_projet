@@ -15,7 +15,9 @@ export default class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
-      score: 0 
+      moves: 0,
+      score: 0,
+      isOver: false,
     } 
 
     // this.onclickMove=this.onclickMove.bind(this)
@@ -31,6 +33,8 @@ export default class App extends Component {
     this.moveRight = this.moveRight.bind(this)
     this.moveUp = this.moveUp.bind(this)
     this.moveDown = this.moveDown.bind(this)
+    this.counter1 = this.counter1.bind(this)
+    this.counter2 = this.counter2.bind(this)
   }
 
   // RANDOM NUMBERS
@@ -44,7 +48,8 @@ export default class App extends Component {
             [0,0,0,0],
             [0,0,0,0],
         ],
-        score: 0
+        score: 0,
+        moves:0
     })
   }
 
@@ -114,7 +119,10 @@ export default class App extends Component {
         }
       }
     }
-    this.setState({ grille: newBoard })
+    this.setState({ 
+      grille: newBoard,
+      moves : this.state.moves +1
+    })
   }
 
   compressVertical(direction) {
@@ -124,7 +132,8 @@ export default class App extends Component {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0]
-    ]      
+    ]  
+
 
     for (let i = 0; i < board.length; i++) {
       if(direction === "up") {
@@ -144,7 +153,10 @@ export default class App extends Component {
           }
         }
       }
-      this.setState({ grille: newBoard })
+      this.setState({
+        grille: newBoard ,
+        moves : this.state.moves +1
+      })
     }
   }
 
@@ -160,13 +172,13 @@ export default class App extends Component {
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
           this.setState({
-            score : this.state.score += board[j][i]
+            score : this.state.score += board[j][i],
+            
           })
           break;
         } 
       }
     }
-    this.setState({ grille: board})
   }
 
   mergeVertical(direction) {
@@ -179,43 +191,94 @@ export default class App extends Component {
           board[j][i] = board[j][i] * 2
           board[j + factor][i] = 0
           this.setState({
-            score : this.state.score += board[j][i]
+            score : this.state.score += board[j][i],
+            
           })
           break;
         }
       }
     }
-    this.setState({ grille: board })
+  }
+
+// COUNTER
+  
+  counter1() {
+    const grille = this.state.grille
+    let counterP = 0
+
+    for(let i = 0; i < grille.length; i++) {
+      for(let j = 0; j < grille[i].length; j++) {
+        if (grille[i][j] !== 0) {
+          counterP += grille[i][j]
+        }
+      }
+    }
+    console.log("counter1:", counterP)
+  }
+
+  counter2() {
+    const grille = this.state.grille
+    let counterD = 0
+
+    for(let i = 0; i < grille.length; i++) {
+      for(let j = 0; j < grille[i].length; j++) {
+        if (grille[i][j] !== 0) {
+          counterD += grille[i][j]
+        }
+      }
+    }
+    console.log("counter2:", counterD)
+  }
+
+  isGameOver(){
+    this.counter2()
+    if (this.counter1() < this.counter2) {
+      this.setState({ isOver: true})
+    } else {
+      this.setState({ isOver: false})
+    }
   }
 
 // MOUVEMENT
 
+  move(direction) {
+    if (direction === "left" || direction === "right") {
+      this.compress(direction)
+      this.merge(direction)
+      this.compress(direction)
+    } else {
+      this.compressVertical(direction)
+      this.mergeVertical(direction)
+      this.compressVertical(direction)
+    }
+  }
+
   moveLeft(){
+    this.counter1()
+    this.move("left")
     this.randomizeNumber()
-    this.compress("left")
-    this.merge("left")
-    this.compress("left")
+    this.isGameOver()
   }
   
   moveRight(){
+    this.counter1()
+    this.move("right")
     this.randomizeNumber()
-    this.compress("right")
-    this.merge("right")
-    this.compress("right")
+    this.isGameOver()
   }
   
   moveDown(){
+    this.counter1()
+    this.move("down")
     this.randomizeNumber()
-    this.compressVertical("down")
-    this.mergeVertical("down")
-    this.compressVertical("down")
+    this.isGameOver()
   }
   
   moveUp() {
+    this.counter1()
+    this.move("up")
     this.randomizeNumber()
-    this.compressVertical("up")
-    this.mergeVertical("up")
-    this.compressVertical("up")
+    this.isGameOver()
   }
 
   componentDidMount() {
@@ -227,10 +290,17 @@ export default class App extends Component {
       if(key === 40 || key === 83) this.moveDown() // S
     })
   }
+
+  // TIMER
+
   
+ 
+
 
 
   render() {
+    // console.log(this.state.isMerging)
+    // console.log(this.merge())
     return (
       <>
       <div className="titre">
@@ -249,26 +319,31 @@ export default class App extends Component {
       </div>
       
       <div className="main_container">
-        <Score 
-          className="score start_buttons" 
-          score={this.state.score}
-        />
-        <Button 
-          className="start start_buttons" 
-          label= "New" 
-          onclick={this.onclickStart}
-        />
-        <Button  
-          className="reset start_buttons" 
-          label= "Reset" 
-          onclick={this.onclickReset} 
-        />
-        
-        
-        
-        <div>
-          <Grille grille= {this.state.grille}/>
-        </div>
+          <Score 
+            className="score start_buttons move" 
+            score={this.state.score}
+            moves={this.state.moves}
+          />
+          <Button 
+            className="start start_buttons" 
+            label= "New" 
+            onclick={this.onclickStart}
+          />
+          <Button  
+            className="reset start_buttons" 
+            label= "Reset" 
+            onclick={this.onclickReset} 
+          />
+          {!this.state.isOver ? 
+          <div>
+            <Grille grille= {this.state.grille}/>
+          </div> 
+          :
+          <div>
+            <p className="filter">Game Over</p>
+            <Grille grille= {this.state.grille}/>
+          </div>
+          }
 
         <div className="button_container">
           <Button 
@@ -291,7 +366,12 @@ export default class App extends Component {
             label= "→" 
             onclick={this.moveRight} 
           />
+        </div>
 
+        <div className="timer">
+          <h2>Timer :</h2>
+          <p>{`00:00:00`}</p>
+          
         </div>
       </div>
     </>

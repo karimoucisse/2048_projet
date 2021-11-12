@@ -53,7 +53,6 @@ class Grille extends Component {
     // }
 
     render() {
-        console.log("props de grille:", this.props)
         return (
             <div className="grid-container">
                 {this.props.grille.map((singleRow,rowIndex) => {
