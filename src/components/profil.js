@@ -6,7 +6,9 @@ export default class Profil extends Component {
             <div className="profil">
                 <div className="form">
                     <label>Pseudo</label>
-                    <input type="text" onChange={this.props.onChange}/>
+                    <input type="text"
+                        onChange={this.props.onChange}
+                    />
                 </div>
                 {/* <div className="logos">
                     <h1>Logos</h1>

@@ -5,8 +5,8 @@ import './App.css'
 import Score from './components/Score'
 import Profil from './components/Profil';
 import Logos from './components/Logos';
-// const Stopwatch = require('statman-stopwatch');
-// const stopwatch = new Stopwatch();
+const Stopwatch = require('statman-stopwatch');
+const stopwatch = new Stopwatch();
 // const delta = stopwatch.read()
 
 export default class App extends Component {
@@ -24,7 +24,8 @@ export default class App extends Component {
       score: 0 ,
       pseudo:"",
       display : false,
-      className : ""
+      className : "",
+      pause : false
     } 
     // this.onclickMove=this.onclickMove.bind(this)
     this.onclickStart=this.onclickStart.bind(this)
@@ -42,6 +43,8 @@ export default class App extends Component {
     this.pseudoValue = this.pseudoValue.bind(this)
     this.onclickPseudo = this.onclickPseudo.bind(this)
     this.onclickLogo = this.onclickLogo.bind(this)
+    this.onclickPause = this.onclickPause.bind(this)
+    this.onClickTakeBackTheParty = this.onClickTakeBackTheParty.bind(this)
   }
 
   // RANDOM NUMBERS
@@ -91,7 +94,7 @@ export default class App extends Component {
     this.reset()
     this.randomizeGrid()
     this.randomizeGrid()
-    // stopwatch.start()
+    stopwatch.start()
   }
 
   onclickReset(){
@@ -263,10 +266,10 @@ export default class App extends Component {
   componentDidMount() {
     window.addEventListener("keyup", e => {
       var key = e.keyCode;
-      if(key === 37 || key === 65 || key === 81) this.moveLeft() // Q - A
-      if(key === 39 || key === 68) this.moveRight() // D
-      if(key === 38 || key === 87 || key === 90) this.moveUp() // Z - W 
-      if(key === 40 || key === 83) this.moveDown() // S
+      if(key === 37 ) this.moveLeft() // Q - A
+      if(key === 39 ) this.moveRight() // D
+      if(key === 38 ) this.moveUp() // Z - W 
+      if(key === 40 ) this.moveDown() // S
     })
   }
 
@@ -275,7 +278,6 @@ export default class App extends Component {
   
   pseudoValue(e) {
     this.setState({pseudo : e.target.value})
-    console.log(this.state.pseudo);
   }
   onclickPseudo() {
     this.setState({display:true})
@@ -283,10 +285,24 @@ export default class App extends Component {
   onclickLogo(logoClassName) {
     this.setState({ className : logoClassName})
   }
+  onclickPause() {
+    this.setState({ pause : true})
+  }
+  onClickTakeBackTheParty() {
+    this.setState({ pause : false})
+  }
 
   render() {
     return (
       <>
+      {this.state.pause === true && 
+            <div className="Pause_container"> 
+              <div>score: {this.state.score}</div>
+              <div>moves: {this.state.moves}</div>
+              <div>time : 0000</div>
+              <Button label="reprendre" onclick={this.onClickTakeBackTheParty}/>
+            </div>
+      }
       {!this.state.display &&
         <div className="profil_container">
           <Profil onChange={this.pseudoValue} onClick={this.onclickPseudo}/>
@@ -355,11 +371,15 @@ export default class App extends Component {
           <Logos className= {this.state.className}/>
 
         </div>
-        <Score 
-          className="score start_buttons" 
-          score={this.state.score}
-          moves={this.state.moves}
-        />
+        <div className="grid_top">
+          <Score 
+            className="score start_buttons" 
+            score={this.state.score}
+            moves={this.state.moves}
+          />
+          <Logos className = "fas fa-pause" onClick={this.onclickPause}/>
+        </div>
+        
         <Button 
           className="start start_buttons" 
           label= "New" 
@@ -401,7 +421,7 @@ export default class App extends Component {
         </div>
         <div>
           <h2>Timer :</h2>
-          <p>{`0000`}</p>
+          <p>{stopwatch.read()}</p>
         </div>
         </div>
       </>}
