@@ -221,7 +221,7 @@ Z
         if (board[i][j] !== 0 && board[i][j] === board[i][j + factor]) {
           board[i][j] = board[i][j] * 2
           board[i][j + factor] = 0
-          this.setState({ score : this.state.score += board[j][i] })
+          this.setState({ score : newScore += board[j][i] })
           break;
         } 
       }
