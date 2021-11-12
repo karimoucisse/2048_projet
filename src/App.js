@@ -95,6 +95,7 @@ export default class App extends Component {
         }
       }
     }
+
     if(countNumber < 16) {
       if (newBoard[ligne_du_premier_2][colone_du_premier_2] === 0) {
         newBoard[ligne_du_premier_2][colone_du_premier_2] = 2
@@ -103,6 +104,7 @@ export default class App extends Component {
         this.randomizeNumber()
       }
     }
+
     this.setState({ isFull: countNumber })
   }
     
@@ -330,17 +332,14 @@ Z
   componentDidUpdate(prevProps, prevState) {
     console.log("componentDidUpdate prevState gridsum",prevState.gridSum )
     console.log("State grid Sum",this.state.gridSum) 
-     if(this.state.gridSum > prevState.gridSum) {
-     {console.log("continue le jeu" )}
-    } else if (this.state.gridSum === prevState.gridSum && this.state.isFull === 16) {
-      //  console.log("game over")
-       this.setState({ isOver: true })
+    if(this.state.isOver === false) {
+      if (this.state.gridSum === prevState.gridSum && this.state.isFull === 16) {
+        //  console.log("game over")
+         this.setState({ isOver: true })
+      }
     }
   }
  
-
-
-  
   pseudoValue(e) {
     this.setState({pseudo : e.target.value})
   }
